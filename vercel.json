@@ -1,7 +1,14 @@
 {
-  "comment": "Vercel config – serves the static frontend from the /public folder.",
-  "outputDirectory": "public",
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+  "version": 2,
+  "builds": [
+    {
+      "src": "public/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    { "src": "/styles.css", "dest": "/public/styles.css" },
+    { "src": "/app.js",     "dest": "/public/app.js" },
+    { "src": "/(.*)",       "dest": "/public/index.html" }
   ]
 }
