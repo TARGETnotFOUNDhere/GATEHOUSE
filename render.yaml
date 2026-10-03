@@ -1,0 +1,28 @@
+# Render Blueprint – deploys the Node.js/Express backend as a Web Service.
+# Docs: https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: gatehouse-api
+    runtime: node
+    region: singapore          # closest to India; change to ohio / frankfurt if preferred
+    plan: free
+    rootDir: .                 # repo root IS the backend
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000            # Render assigns this automatically; kept here for clarity
+      # Set these in the Render dashboard (never commit real secrets):
+      - key: MONGO_URI
+        sync: false             # "sync: false" means Render will prompt you to fill it in
+      - key: JWT_SECRET
+        sync: false
+      - key: JWT_EXPIRES_IN
+        value: 1d
+      - key: GUARD_REGISTER_KEY
+        sync: false
+      - key: FRONTEND_URL
+        sync: false             # paste your Vercel URL here after deploying the frontend

@@ -1,0 +1,7 @@
+{
+  "comment": "Vercel config – serves the static frontend from the /public folder.",
+  "outputDirectory": "public",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}

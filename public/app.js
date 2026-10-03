@@ -26,8 +26,13 @@ const today = () => new Date().toLocaleDateString(undefined, { weekday: 'long', 
 const isGuard = () => state.user?.role === 'guard';
 const isResident = () => state.user?.role === 'resident';
 
+// When deployed on Vercel the backend lives on Render.
+// Set window.GATEHOUSE_API in index.html (injected at build/deploy time) OR
+// fall back to empty string so relative /api/... paths still work locally.
+const API_BASE = (typeof window !== 'undefined' && window.GATEHOUSE_API) || '';
+
 async function api(path, options = {}) {
-  const response = await fetch(path, {
+  const response = await fetch(API_BASE + path, {
     ...options,
     headers: {
       'Content-Type': 'application/json',

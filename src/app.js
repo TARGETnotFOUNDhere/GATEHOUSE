@@ -12,7 +12,16 @@ app.use(helmet({
 		directives: { imgSrc: ["'self'", "data:", "https://images.unsplash.com"] },
 	},
 })); // sets secure HTTP headers
-app.use(cors()); // allows a frontend on another origin to call this API
+
+// CORS — in production the frontend lives on Vercel; set FRONTEND_URL in Render env vars.
+// Locally FRONTEND_URL is unset so we allow all origins (Express default).
+const corsOptions = process.env.FRONTEND_URL
+	? {
+		origin: process.env.FRONTEND_URL.split(',').map((u) => u.trim()), // supports comma-separated list
+		credentials: true,
+	}
+	: {};
+app.use(cors(corsOptions));
 app.use(express.json()); // parses JSON request bodies into req.body
 
 app.use(express.static(path.join(__dirname, "../public")));
